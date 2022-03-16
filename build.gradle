@@ -1,5 +1,5 @@
 ext {
-    flinkVersion = System.getenv('flinkVersion') ?: '1.14.3'
+    flinkVersion = System.getenv('flinkVersion') ?: '1.14.4'
 }
 
 subprojects {
