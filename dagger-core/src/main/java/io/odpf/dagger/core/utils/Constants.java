@@ -51,7 +51,7 @@ public class Constants {
     public static final String FLINK_CHECKPOINT_MIN_PAUSE_MS_KEY = "FLINK_CHECKPOINT_MIN_PAUSE_MS";
     public static final int FLINK_CHECKPOINT_MAX_CONCURRENT_DEFAULT = 1;
     public static final String FLINK_CHECKPOINT_MAX_CONCURRENT_KEY = "FLINK_CHECKPOINT_MAX_CONCURRENT";
-    public static final int FLINK_RETENTION_IDLE_STATE_HOUR_DEFAULT = 8;
+    public static final int FLINK_RETENTION_IDLE_STATE_HOUR_DEFAULT = 10;
     public static final String FLINK_RETENTION_IDLE_STATE_HOUR_KEY = "FLINK_RETENTION_IDLE_STATE_HOUR";
     public static final long FLINK_WATERMARK_DELAY_MS_DEFAULT = 10000;
     public static final String FLINK_WATERMARK_DELAY_MS_KEY = "FLINK_WATERMARK_DELAY_MS";

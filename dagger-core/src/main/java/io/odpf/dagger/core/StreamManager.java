@@ -81,7 +81,7 @@ public class StreamManager {
         executionEnvironment.getConfig().setGlobalJobParameters(configuration.getParam());
 
 
-        tableEnvironment.getConfig().setIdleStateRetention(Duration.ofHours(configuration.getInteger(FLINK_RETENTION_IDLE_STATE_HOUR_KEY, FLINK_RETENTION_IDLE_STATE_HOUR_DEFAULT)));
+        tableEnvironment.getConfig().setIdleStateRetention(Duration.ofMinutes(configuration.getInteger(FLINK_RETENTION_IDLE_STATE_HOUR_KEY, FLINK_RETENTION_IDLE_STATE_HOUR_DEFAULT)));
         return this;
     }
 
