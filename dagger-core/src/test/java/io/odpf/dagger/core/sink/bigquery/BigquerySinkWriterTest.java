@@ -149,4 +149,31 @@ public class BigquerySinkWriterTest {
         Mockito.verify(response, Mockito.times(0)).hasErrors();
         Mockito.verify(reporter, Mockito.times(1)).reportFatalException(thrown);
     }
+
+    @Test
+    public void shouldFlushWhilePrepareForCommit() throws IOException {
+        ProtoSerializer protoSerializer = Mockito.mock(ProtoSerializer.class);
+        OdpfSink sink = Mockito.mock(OdpfSink.class);
+        BigquerySinkWriter bigquerySinkWriter = new BigquerySinkWriter(protoSerializer, sink, 3, null, null);
+        Row row = new Row(1);
+        row.setField(0, "some field");
+        Mockito.when(protoSerializer.serializeKey(row)).thenReturn("test".getBytes());
+        Mockito.when(protoSerializer.serializeValue(row)).thenReturn("testMessage".getBytes());
+        OdpfSinkResponse response = Mockito.mock(OdpfSinkResponse.class);
+        Mockito.when(response.hasErrors()).thenReturn(false);
+        Mockito.when(sink.pushToSink(Mockito.anyList())).thenReturn(response);
+        bigquerySinkWriter.write(row, null);
+        bigquerySinkWriter.write(row, null);
+        bigquerySinkWriter.write(row, null);
+        bigquerySinkWriter.write(row, null);
+        bigquerySinkWriter.write(row, null);
+        bigquerySinkWriter.write(row, null);
+        bigquerySinkWriter.write(row, null);
+        bigquerySinkWriter.write(row, null);
+        bigquerySinkWriter.prepareCommit(true);
+        bigquerySinkWriter.write(row, null);
+        bigquerySinkWriter.write(row, null);
+        bigquerySinkWriter.write(row, null);
+        Mockito.verify(sink, Mockito.times(4)).pushToSink(Mockito.anyList());
+    }
 }

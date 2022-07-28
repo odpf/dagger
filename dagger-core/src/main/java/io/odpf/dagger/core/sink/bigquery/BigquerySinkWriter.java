@@ -97,9 +97,19 @@ public class BigquerySinkWriter implements SinkWriter<Row, Void, Void> {
 
     }
 
+    /**
+     * This will be called before we checkpoint the Writer's state in Streaming execution mode.
+     *
+     * @param flush – Whether flushing the un-staged data or not
+     * @return The data is ready to commit.
+     * @throws IOException – if fail to prepare for a commit.
+     */
     @Override
-    public List<Void> prepareCommit(boolean flush) throws IOException, InterruptedException {
-        return null;
+    public List<Void> prepareCommit(boolean flush) throws IOException {
+        if (flush) {
+            pushToBq();
+        }
+        return Collections.emptyList();
     }
 
     @Override
@@ -108,13 +118,8 @@ public class BigquerySinkWriter implements SinkWriter<Row, Void, Void> {
     }
 
     @Override
-    public List<Void> snapshotState(long checkpointId) throws IOException {
-        try {
-            pushToBq();
-        } catch (Exception exception) {
-            errorReporter.reportFatalException(exception);
-            throw exception;
-        }
+    public List<Void> snapshotState(long checkpointId) {
+        // We don't snapshot anything
         return Collections.emptyList();
     }
 }
