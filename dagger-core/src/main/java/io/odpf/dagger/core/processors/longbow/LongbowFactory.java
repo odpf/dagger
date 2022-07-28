@@ -1,5 +1,6 @@
 package io.odpf.dagger.core.processors.longbow;
 
+import io.odpf.dagger.common.serde.proto.serialization.ProtoSerializer;
 import org.apache.flink.streaming.api.functions.async.RichAsyncFunction;
 import org.apache.flink.types.Row;
 
@@ -25,7 +26,6 @@ import io.odpf.dagger.core.processors.longbow.validator.LongbowType;
 import io.odpf.dagger.core.processors.longbow.validator.LongbowValidator;
 import io.odpf.dagger.core.processors.telemetry.processor.MetricsTelemetryExporter;
 import io.odpf.dagger.core.processors.types.PostProcessor;
-import io.odpf.dagger.common.serde.proto.serialization.ProtoSerializer;
 
 import java.util.ArrayList;
 import java.util.Map;

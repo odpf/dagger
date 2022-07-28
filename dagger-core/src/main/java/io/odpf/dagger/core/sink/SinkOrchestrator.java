@@ -1,5 +1,6 @@
 package io.odpf.dagger.core.sink;
 
+import io.odpf.dagger.core.sink.bigquery.BigquerySinkBuilder;
 import org.apache.flink.api.connector.sink.Sink;
 import org.apache.flink.connector.base.DeliveryGuarantee;
 import org.apache.flink.connector.kafka.sink.KafkaSink;
@@ -32,7 +33,7 @@ import static io.odpf.dagger.core.utils.Constants.*;
  */
 public class SinkOrchestrator implements TelemetryPublisher {
     private final MetricsTelemetryExporter telemetryExporter;
-    private Map<String, List<String>> metrics;
+    private final Map<String, List<String>> metrics;
 
     public SinkOrchestrator(MetricsTelemetryExporter telemetryExporter) {
         this.telemetryExporter = telemetryExporter;
@@ -70,6 +71,13 @@ public class SinkOrchestrator implements TelemetryPublisher {
                 break;
             case "log":
                 sink = new LogSink(columnNames);
+                break;
+            case "bigquery":
+                sink = BigquerySinkBuilder.create()
+                        .setColumnNames(columnNames)
+                        .setConfiguration(configuration)
+                        .setStencilClientOrchestrator(stencilClientOrchestrator)
+                        .build();
                 break;
             default:
                 sink = new InfluxDBSink(new InfluxDBFactoryWrapper(), configuration, columnNames, new ErrorHandler());

@@ -5,26 +5,26 @@ import io.odpf.dagger.common.core.StencilClientOrchestrator;
 import io.odpf.dagger.common.serde.DaggerDeserializer;
 import io.odpf.dagger.common.serde.DataTypes;
 import io.odpf.dagger.common.serde.proto.deserialization.ProtoDeserializer;
+import io.odpf.dagger.core.source.config.StreamConfig;
 import io.odpf.dagger.core.source.config.models.SourceDetails;
 import io.odpf.dagger.core.source.config.models.SourceName;
-import io.odpf.dagger.core.source.config.StreamConfig;
 import org.apache.flink.types.Row;
 
 import java.util.Arrays;
 import java.util.HashSet;
 
 import static io.odpf.dagger.common.serde.DataTypes.PROTO;
-import static io.odpf.dagger.core.source.config.models.SourceName.KAFKA_SOURCE;
 import static io.odpf.dagger.core.source.config.models.SourceName.KAFKA_CONSUMER;
+import static io.odpf.dagger.core.source.config.models.SourceName.KAFKA_SOURCE;
 import static io.odpf.dagger.core.utils.Constants.FLINK_ROWTIME_ATTRIBUTE_NAME_DEFAULT;
 import static io.odpf.dagger.core.utils.Constants.FLINK_ROWTIME_ATTRIBUTE_NAME_KEY;
 
 public class ProtoDeserializerProvider implements DaggerDeserializerProvider<Row> {
+    private static final HashSet<SourceName> COMPATIBLE_SOURCES = new HashSet<>(Arrays.asList(KAFKA_SOURCE, KAFKA_CONSUMER));
+    private static final DataTypes COMPATIBLE_INPUT_SCHEMA_TYPE = PROTO;
     protected final StreamConfig streamConfig;
     protected final Configuration configuration;
     protected final StencilClientOrchestrator stencilClientOrchestrator;
-    private static final HashSet<SourceName> COMPATIBLE_SOURCES = new HashSet<>(Arrays.asList(KAFKA_SOURCE, KAFKA_CONSUMER));
-    private static final DataTypes COMPATIBLE_INPUT_SCHEMA_TYPE = PROTO;
 
     public ProtoDeserializerProvider(StreamConfig streamConfig, Configuration configuration, StencilClientOrchestrator stencilClientOrchestrator) {
         this.streamConfig = streamConfig;

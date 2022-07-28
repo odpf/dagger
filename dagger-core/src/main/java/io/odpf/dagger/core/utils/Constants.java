@@ -166,4 +166,10 @@ public class Constants {
     public static final long MAX_EVENT_LOOP_EXECUTE_TIME_DEFAULT = 10000;
     public static final int LONGBOW_OUTPUT_ADDITIONAL_ARITY = 3;
     public enum ExternalPostProcessorVariableType { REQUEST_VARIABLES, HEADER_VARIABLES, QUERY_VARIABLES, ENDPOINT_VARIABLE };
+
+    public static final String SINK_BIGQUERY_BATCH_SIZE = "SINK_BIGQUERY_BATCH_SIZE";
+    public static final int SINK_BIGQUERY_BATCH_SIZE_DEFAULT = 500;
+    // Comma seperated error types
+    public static final String SINK_ERROR_TYPES_FOR_FAILURE = "SINK_ERROR_TYPES_FOR_FAILURE";
+    public static final String SINK_ERROR_TYPES_FOR_FAILURE_DEFAULT = "";
 }

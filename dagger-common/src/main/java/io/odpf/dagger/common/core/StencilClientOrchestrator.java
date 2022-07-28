@@ -38,9 +38,10 @@ public class StencilClientOrchestrator implements Serializable {
     }
 
     StencilConfig createStencilConfig() {
-        Integer timeoutMS = configuration.getInteger(SCHEMA_REGISTRY_STENCIL_TIMEOUT_MS_KEY, SCHEMA_REGISTRY_STENCIL_TIMEOUT_MS_DEFAULT);
-        List<Header> headers = this.getHeaders(configuration);
-        return StencilConfig.builder().fetchTimeoutMs(timeoutMS).fetchHeaders(headers).build();
+        return StencilConfig.builder()
+                .fetchHeaders(getHeaders(configuration))
+                .fetchTimeoutMs(configuration.getInteger(SCHEMA_REGISTRY_STENCIL_FETCH_TIMEOUT_MS, SCHEMA_REGISTRY_STENCIL_FETCH_TIMEOUT_MS_DEFAULT))
+                .build();
     }
 
     private List<Header> getHeaders(Configuration config) {

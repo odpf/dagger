@@ -1,6 +1,8 @@
 package io.odpf.dagger.core.sink;
 
+import io.odpf.dagger.core.sink.bigquery.BigquerySink;
 import org.apache.flink.api.connector.sink.Sink;
+import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.connector.kafka.sink.KafkaSink;
 
 import io.odpf.dagger.common.configuration.Configuration;
@@ -12,10 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 import static io.odpf.dagger.common.core.Constants.*;
 import static io.odpf.dagger.core.utils.Constants.SINK_KAFKA_BROKERS_KEY;
@@ -103,5 +102,14 @@ public class SinkOrchestratorTest {
 
         sinkOrchestrator.getSink(configuration, new String[]{}, stencilClientOrchestrator);
         assertEquals(expectedMetrics, sinkOrchestrator.getTelemetry());
+    }
+
+    @Test
+    public void shouldReturnBigquerySink() {
+        when(configuration.getString(eq("SINK_TYPE"), anyString())).thenReturn("bigquery");
+        when(configuration.getString("SINK_CONNECTOR_SCHEMA_PROTO_MESSAGE_CLASS", "")).thenReturn("some.class");
+        when(configuration.getParam()).thenReturn(ParameterTool.fromMap(Collections.emptyMap()));
+        Sink sinkFunction = sinkOrchestrator.getSink(configuration, new String[]{}, stencilClientOrchestrator);
+        assertThat(sinkFunction, instanceOf(BigquerySink.class));
     }
 }

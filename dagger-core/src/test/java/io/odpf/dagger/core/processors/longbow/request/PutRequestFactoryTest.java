@@ -1,10 +1,10 @@
 package io.odpf.dagger.core.processors.longbow.request;
 
+import io.odpf.dagger.common.serde.proto.serialization.ProtoSerializer;
 import org.apache.flink.types.Row;
 
 import io.odpf.dagger.core.processors.longbow.LongbowSchema;
 import io.odpf.dagger.core.processors.longbow.storage.PutRequest;
-import io.odpf.dagger.common.serde.proto.serialization.ProtoSerializer;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

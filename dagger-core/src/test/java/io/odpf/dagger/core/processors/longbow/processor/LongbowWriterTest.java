@@ -1,5 +1,6 @@
 package io.odpf.dagger.core.processors.longbow.processor;
 
+import io.odpf.dagger.common.serde.proto.serialization.ProtoSerializer;
 import org.apache.flink.api.common.functions.RuntimeContext;
 import org.apache.flink.streaming.api.functions.async.ResultFuture;
 import org.apache.flink.types.Row;
@@ -16,7 +17,6 @@ import io.odpf.dagger.core.processors.longbow.outputRow.WriterOutputRow;
 import io.odpf.dagger.core.processors.longbow.request.PutRequestFactory;
 import io.odpf.dagger.core.processors.longbow.storage.LongbowStore;
 import io.odpf.dagger.core.processors.longbow.storage.PutRequest;
-import io.odpf.dagger.common.serde.proto.serialization.ProtoSerializer;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

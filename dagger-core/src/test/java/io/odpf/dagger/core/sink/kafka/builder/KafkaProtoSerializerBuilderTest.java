@@ -4,7 +4,7 @@ import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
 
 import io.odpf.dagger.common.configuration.Configuration;
 import io.odpf.dagger.common.core.StencilClientOrchestrator;
-import io.odpf.dagger.common.serde.proto.serialization.ProtoSerializer;
+import io.odpf.dagger.common.serde.proto.serialization.KafkaProtoSerializer;
 import io.odpf.dagger.core.utils.Constants;
 import org.junit.Assert;
 import org.junit.Before;
@@ -38,7 +38,7 @@ public class KafkaProtoSerializerBuilderTest {
         KafkaProtoSerializerBuilder kafkaProtoSerializerBuilder = new KafkaProtoSerializerBuilder(configuration, stencilClientOrchestrator, new String[]{"test-col"});
         KafkaRecordSerializationSchema kafkaSerializerSchema = kafkaProtoSerializerBuilder.build();
 
-        Assert.assertTrue(kafkaSerializerSchema instanceof ProtoSerializer);
+        Assert.assertTrue(kafkaSerializerSchema instanceof KafkaProtoSerializer);
     }
 
     @Test

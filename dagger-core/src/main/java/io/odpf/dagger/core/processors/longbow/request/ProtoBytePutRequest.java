@@ -1,8 +1,8 @@
 package io.odpf.dagger.core.processors.longbow.request;
 
+import io.odpf.dagger.common.serde.proto.serialization.ProtoSerializer;
 import org.apache.flink.types.Row;
 
-import io.odpf.dagger.common.serde.proto.serialization.ProtoSerializer;
 import io.odpf.dagger.core.processors.longbow.LongbowSchema;
 import io.odpf.dagger.core.processors.longbow.storage.PutRequest;
 import io.odpf.dagger.core.utils.Constants;
@@ -20,10 +20,10 @@ import static io.odpf.dagger.common.core.Constants.ROWTIME;
 public class ProtoBytePutRequest implements PutRequest {
     private static final byte[] COLUMN_FAMILY_NAME = Bytes.toBytes(Constants.LONGBOW_COLUMN_FAMILY_DEFAULT);
     private static final byte[] QUALIFIER_NAME = Bytes.toBytes(Constants.LONGBOW_QUALIFIER_DEFAULT);
-    private LongbowSchema longbowSchema;
-    private Row input;
-    private ProtoSerializer protoSerializer;
-    private String tableId;
+    private final LongbowSchema longbowSchema;
+    private final Row input;
+    private final ProtoSerializer protoSerializer;
+    private final String tableId;
 
 
     /**

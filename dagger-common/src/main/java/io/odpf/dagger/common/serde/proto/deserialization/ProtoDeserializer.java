@@ -1,17 +1,16 @@
 package io.odpf.dagger.common.serde.proto.deserialization;
 
-import io.odpf.dagger.common.serde.DaggerDeserializer;
-import org.apache.flink.api.common.typeinfo.TypeInformation;
-import org.apache.flink.streaming.connectors.kafka.KafkaDeserializationSchema;
-import org.apache.flink.types.Row;
-
 import com.google.protobuf.Descriptors;
 import com.google.protobuf.DynamicMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import io.odpf.dagger.common.core.StencilClientOrchestrator;
 import io.odpf.dagger.common.exceptions.DescriptorNotFoundException;
 import io.odpf.dagger.common.exceptions.serde.DaggerDeserializationException;
+import io.odpf.dagger.common.serde.DaggerDeserializer;
 import io.odpf.dagger.common.serde.typehandler.RowFactory;
+import org.apache.flink.api.common.typeinfo.TypeInformation;
+import org.apache.flink.streaming.connectors.kafka.KafkaDeserializationSchema;
+import org.apache.flink.types.Row;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,11 +24,11 @@ import java.util.List;
  */
 public class ProtoDeserializer implements KafkaDeserializationSchema<Row>, DaggerDeserializer<Row> {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProtoDeserializer.class);
     private final String protoClassName;
     private final int timestampFieldIndex;
     private final StencilClientOrchestrator stencilClientOrchestrator;
     private final TypeInformation<Row> typeInformation;
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProtoDeserializer.class);
 
     /**
      * Instantiates a new Proto deserializer.
