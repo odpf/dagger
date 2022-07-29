@@ -16,8 +16,8 @@ Dagger currently supports 3 kinds of Data Sources. Here are the requirements for
 
 ##### `KAFKA_SOURCE` and `KAFKA_CONSUMER`
 
-Both these sources use [Kafka](https://kafka.apache.org/) as the source of data. So you need to set up Kafka(1.0+) either 
-in a local or clustered environment. Follow this [quick start](https://kafka.apache.org/quickstart) to set up Kafka in 
+Both these sources use [Kafka](https://kafka.apache.org/) as the source of data. So you need to set up Kafka(1.0+) either
+in a local or clustered environment. Follow this [quick start](https://kafka.apache.org/quickstart) to set up Kafka in
 the local machine. If you have a clustered Kafka you can configure it to use in Dagger directly.
 
 ##### `PARQUET_SOURCE`
@@ -47,37 +47,37 @@ root_folder
 
 ```
 
-The file paths can be either in the local file system or in GCS bucket. When parquet files are provided from GCS bucket, 
-Dagger will require a `core_site.xml` to be configured in order to connect and read from GCS. A sample `core_site.xml` is 
+The file paths can be either in the local file system or in GCS bucket. When parquet files are provided from GCS bucket,
+Dagger will require a `core_site.xml` to be configured in order to connect and read from GCS. A sample `core_site.xml` is
 present in dagger and looks like this:
 ```xml
 <configuration>
-    <property>
-        <name>google.cloud.auth.service.account.enable</name>
-        <value>true</value>
-    </property>
-    <property>
-        <name>google.cloud.auth.service.account.json.keyfile</name>
-        <value>/Users/dummy/secrets/google_service_account.json</value>
-    </property>
-    <property>
-        <name>fs.gs.requester.pays.mode</name>
-        <value>CUSTOM</value>
-        <final>true</final>
-    </property>
-    <property>
-        <name>fs.gs.requester.pays.buckets</name>
-        <value>my_sample_bucket_name</value>
-        <final>true</final>
-    </property>
-    <property>
-        <name>fs.gs.requester.pays.project.id</name>
-        <value>my_billing_project_id</value>
-        <final>true</final>
-    </property>
+  <property>
+    <name>google.cloud.auth.service.account.enable</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>google.cloud.auth.service.account.json.keyfile</name>
+    <value>/Users/dummy/secrets/google_service_account.json</value>
+  </property>
+  <property>
+    <name>fs.gs.requester.pays.mode</name>
+    <value>CUSTOM</value>
+    <final>true</final>
+  </property>
+  <property>
+    <name>fs.gs.requester.pays.buckets</name>
+    <value>my_sample_bucket_name</value>
+    <final>true</final>
+  </property>
+  <property>
+    <name>fs.gs.requester.pays.project.id</name>
+    <value>my_billing_project_id</value>
+    <final>true</final>
+  </property>
 </configuration>
 ```
-You can look into the official [GCS Hadoop Connectors](https://github.com/GoogleCloudDataproc/hadoop-connectors/blob/master/gcs/CONFIGURATION.md) 
+You can look into the official [GCS Hadoop Connectors](https://github.com/GoogleCloudDataproc/hadoop-connectors/blob/master/gcs/CONFIGURATION.md)
 documentation to know more on how to edit this xml as per your needs.
 
 #### `Flink [optional]`
@@ -104,22 +104,22 @@ $ java -jar dagger-core/build/libs/dagger-core-<dagger-version>-fat.jar ConfigFi
 
 #### `Protobuf Schema`
 
-- Dagger exclusively supports [protobuf](https://developers.google.com/protocol-buffers) encoded data. That is, for a 
-source reading from Kafka, Dagger consumes protobuf data from Kafka topics and does the processing. For a source reading 
-from Parquet Files, dagger uses protobuf schema to parse the Row Group. When pushing the results to a sink, Dagger produces 
-data as per the output protobuf schema to a Kafka topic(when the sink is Kafka).
-- When using Kafka as a source, you can push data to a Kafka topic as per protobuf format using any of the Kafka client 
-libraries. You can follow this [tutorial](https://www.conduktor.io/how-to-produce-and-consume-protobuf-records-in-apache-kafka/).
-- For all kinds of sources, you need to define the 
-[java compiled protobuf schema](https://developers.google.com/protocol-buffers/docs/javatutorial) in the classpath or 
-use our in-house schema registry tool like [Stencil](https://github.com/odpf/stencil) to let dagger know about the data 
-schema. Stencil is an event schema registry that provides an abstraction layer for schema handling, schema caching, and 
-dynamic schema updates. [These configurations](../reference/configuration.md#schema-registry) needs to be set if you are 
-using stencil for proto schema handling.
+- Dagger exclusively supports [protobuf](https://developers.google.com/protocol-buffers) encoded data. That is, for a
+  source reading from Kafka, Dagger consumes protobuf data from Kafka topics and does the processing. For a source reading
+  from Parquet Files, dagger uses protobuf schema to parse the Row Group. When pushing the results to a sink, Dagger produces
+  data as per the output protobuf schema to a Kafka topic(when the sink is Kafka).
+- When using Kafka as a source, you can push data to a Kafka topic as per protobuf format using any of the Kafka client
+  libraries. You can follow this [tutorial](https://www.conduktor.io/how-to-produce-and-consume-protobuf-records-in-apache-kafka/).
+- For all kinds of sources, you need to define the
+  [java compiled protobuf schema](https://developers.google.com/protocol-buffers/docs/javatutorial) in the classpath or
+  use our in-house schema registry tool like [Stencil](https://github.com/odpf/stencil) to let dagger know about the data
+  schema. Stencil is an event schema registry that provides an abstraction layer for schema handling, schema caching, and
+  dynamic schema updates. [These configurations](../reference/configuration.md#schema-registry) needs to be set if you are
+  using stencil for proto schema handling.
 
 #### `Sinks`
 
-- The current version of dagger supports Log, InfluxDB and Kafka and as supported sinks to push the data after processing. You need to set up the desired sinks beforehand so that data can be pushed seamlessly.
+- The current version of dagger supports Log, BigQuery, InfluxDB and Kafka and as supported sinks to push the data after processing. You need to set up the desired sinks beforehand so that data can be pushed seamlessly.
 
   ##### `Influx Sink`
 
@@ -132,6 +132,15 @@ using stencil for proto schema handling.
   - With Kafka sink dagger pushes the processed data as protobuf to a Kafka topic.
   - If you have a Kafka cluster set up you are good to run a Kafka sink dagger. Enable auto topic creation in Kafka or create a Kafka topic beforehand to push the data.
 
+  ##### `BigQuery Sink` :
+
+  - Datatype Protobuf -
+    Bigquery Sink for dagger will create the BigQuery table and the dataset when they do not exist already.
+    It will update the BigQuery table schema based on the latest protobuf schema. It also translates Protobuf messages into BigQuery records and inserts them into the BigQuery tables.
+
+  - Datatype JSON -
+    Currently we support dynamic schema by inferring from the incoming JSON data; so the BigQuery schema is updated by taking a diff of fields in the JSON data and the actual table fields.
+    Currently, we only support string data type for the fields, so all the incoming JSON data values are converted to string type, except for metadata columns and the partition key.
 ## Common Configurations
 
 - These configurations are mandatory for dagger creation and are sink independent. Here you need to set configurations such as the source details, the protobuf schema class, the SQL query to be applied on the streaming data, etc. In local execution, they would be set inside [`local.properties`](https://github.com/odpf/dagger/blob/main/dagger-core/env/local.properties) file. In the clustered environment they can be passed as job parameters to the Flink exposed job creation API.
@@ -229,6 +238,106 @@ OUTPUT_KAFKA_TOPIC=test-kafka-output
 
 - Dimensions & metrics from the SELECT section in the query need to be mapped to field names in the output proto.
 - Find more examples on Kafka sink SQL queries [here](./guides/query_examples.md#kafka-sink).
+
+## Bigquery Sink
+
+### Datatype Protobuf
+Bigquery Sink has several responsibilities, first creation of bigquery table and dataset when they are not exist,
+second update the bigquery table schema based on the latest protobuf schema,
+third translate protobuf messages into bigquery records and insert them to bigquery tables.
+Bigquery utilise Bigquery [Streaming API](https://cloud.google.com/bigquery/streaming-data-into-bigquery) to insert record into bigquery tables.
+
+### Datatype JSON
+Bigquery Sink has several responsibilities, first creation of bigquery table and dataset when they are not exist,
+Currently we support dynamic schema by inferring from incoming json data; so the bigquery schema is updated by taking a diff of fields in json data and actual table fields.
+Currently we only support string data type for fields, so all incoming json data values are converted to string type, Except for metadata columns and partion key.
+
+
+### Bigquery Table Schema Update
+
+### Protobuf
+Bigquery Sink update the bigquery table schema on separate table update operation. Bigquery utilise [Stencil](https://github.com/odpf/stencil) to parse protobuf messages generate schema and update bigquery tables with the latest schema.
+The stencil client periodically reload the descriptor cache. Table schema update happened after the descriptor caches uploaded.
+
+### Protobuf - Bigquery Table Type Mapping
+
+Here are type conversion between protobuf type and bigquery type :
+
+| Protobuf Type | Bigquery Type |
+| --- | ----------- |
+| bytes | BYTES |
+| string | STRING |
+| enum | STRING |
+| float | FLOAT |
+| double | FLOAT |
+| bool | BOOLEAN |
+| int64, uint64, int32, uint32, fixed64, fixed32, sfixed64, sfixed32, sint64, sint32 | INTEGER |
+| message | RECORD |
+| .google.protobuf.Timestamp | TIMESTAMP |
+| .google.protobuf.Struct | STRING (Json Serialised) |
+| .google.protobuf.Duration | RECORD |
+
+| Protobuf Modifier | Bigquery Modifier |
+| --- | ----------- |
+| repeated | REPEATED |
+
+
+### Partitioning
+
+Bigquery Sink supports creation of table with partition configuration. Currently, Bigquery Sink only supports time based partitioning.
+To have time based partitioning protobuf `Timestamp` as field is needed on the protobuf message. The protobuf field will be used as partitioning column on table creation.
+The time partitioning type that is currently supported is `DAY` partitioning.
+
+### Metadata
+
+For data quality checking purposes, sometimes some metadata need to be added on the record.
+if `SINK_BIGQUERY_ADD_METADATA_ENABLED` is true then the metadata will be added.
+`SINK_BIGQUERY_METADATA_NAMESPACE` is used for another namespace to add columns
+if namespace is empty, the metadata columns will be added in the root level.
+`SINK_BIGQUERY_METADATA_COLUMNS_TYPES` is set with kafka metadata column and their type,
+An example of metadata columns that can be added for kafka records.
+
+### Default columns for json data type
+With dynamic schema for json we need to create table with some default columns, example like parition key needs to be set during creation of the table.
+Example `SINK_BIGQUERY_DEFAULT_COLUMNS =event_timestamp=timestamp`
+The metadata columns are added when input data contains values for the them which will result in missing fields error and will be added by the JSON error handler.
+
+| Fully Qualified Column Name | Type | Modifier |
+| --- | ----------- | ------- | 
+| metadata_column | RECORD | NULLABLE |
+| metadata_column.message_partition | INTEGER | NULLABLE |
+| metadata_column.message_offset | INTEGER | NULLABLE |
+| metadata_column.message_topic | STRING | NULLABLE |
+| metadata_column.message_timestamp | TIMESTAMP | NULLABLE |
+| metadata_column.load_time | TIMESTAMP | NULLABLE |
+
+### Errors Handling
+
+The response can contain multiple errors which will be sent to the application.
+
+| Error Name | Generic Error Type | Description |
+| --- | ----------- | ------- | 
+| Stopped Error | SINK_5XX_ERROR | Error on a row insertion that happened because insert job is cancelled because other record is invalid although current record is valid |
+| Out of bounds Error | SINK_4XX_ERROR | Error on a row insertion the partitioned column has a date value less than 5 years and more than 1 year in the future |
+| Invalid schema Error | SINK_4XX_ERROR | Error on a row insertion when there is a new field that is not exist on the table or when there is required field on the table |
+| Other Error | SINK_UNKNOWN_ERROR | Uncategorized error |
+
+### Google Cloud Bigquery IAM Permission
+
+Several IAM permission is required for bigquery sink to run properly,
+
+* Create and update Table
+  * bigquery.tables.create
+  * bigquery.tables.get
+  * bigquery.tables.update
+* Create and update Dataset
+  * bigquery.datasets.create
+  * bigquery.datasets.get
+  * bigquery.datasets.update
+* Stream insert to Table
+  * bigquery.tables.updateData
+
+Further documentation on bigquery IAM permission [here](https://cloud.google.com/bigquery/streaming-data-into-bigquery).
 
 ## Advanced Data Processing
 
